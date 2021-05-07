@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from hoots.views import home_view, hoot_detail_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home_view),
+    path('hoots/<int:hoot_id>', hoot_detail_view)
 ]
