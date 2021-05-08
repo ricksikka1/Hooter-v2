@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+Welcome to Hooter 2
+
+<script> 
+const xhr = new XMLHttpRequest()
+const method = 'GET'
+const url = "/hoots"
+const responseType = "json"
+
+xhr.responseType = responseType
+xhr.open(method, url)
+xhr.onload = function() {
+    console.log(xhr.response)
+}
+xhr.send()
+</script>
+
+{% endblock content %}

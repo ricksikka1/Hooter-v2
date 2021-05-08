@@ -8,3 +8,6 @@
 
 5) Return REST API View aka JSON so that it can be consumed by JavaScript or w.e else
 
+6) Views, they take web requests and return web responses
+
+7) Use base bootstrap template and have other templates inherit from base 
