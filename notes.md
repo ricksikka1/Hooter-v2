@@ -11,3 +11,9 @@
 6) Views, they take web requests and return web responses
 
 7) Use base bootstrap template and have other templates inherit from base 
+
+8) Meta class within django for added db permissions when creating model forms
+
+9) Forms in django take a look here https://docs.djangoproject.com/en/3.2/topics/forms/ check the view section associated with creating this
+
+10) Use forms in django to validate content (clean content) and to render the actual form

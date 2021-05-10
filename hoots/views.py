@@ -2,12 +2,23 @@ import random
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, JsonResponse
 
+from .forms import HootForm
 from .models import Hoot
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
     #return HttpResponse("<h1>Hello World</h1>")
     return render(request, "pages/home.html", context={}, status=200)
+
+def hoot_create_view(request, *args, **kwargs):
+    # create a form instance and populate it with data from the request
+    form = HootForm(request.POST or None)
+     # check whether it's valid
+    if form.is_valid():
+        obj = form.save(commit=False)
+        obj.save()
+        form = HootForm()
+    return render(request, 'components/form.html', context={"form": form})
 
 def hoot_list_view(request, *args, **kwargs):
     """
