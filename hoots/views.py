@@ -1,3 +1,4 @@
+import random
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, JsonResponse
 
@@ -14,7 +15,7 @@ def hoot_list_view(request, *args, **kwargs):
     """
 
     qs = Hoot.objects.all()
-    hoots_list = [{"id": x.id, "content": x.content} for x in qs]
+    hoots_list = [{"id": x.id, "content": x.content, "likes": random.randint(0, 1000)} for x in qs]
     data = {
         "response": hoots_list
     }

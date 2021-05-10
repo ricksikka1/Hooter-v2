@@ -2,18 +2,57 @@
 
 {% block content %}
 
-Welcome to Hooter 2
+<div class='row text-center'>
+    <div class ='col'> 
+        <h1>Welcome to Hooter 2</h1>
+    </div>
+</div>
+
+<div class='row' id='hoots'>
+    Loading...
+</div>
 
 <script> 
+
+const hootsElement = document.getElementById("hoots")
+
+
 const xhr = new XMLHttpRequest()
 const method = 'GET'
 const url = "/hoots"
 const responseType = "json"
 
+function handleDidLike(hoot_id, currentCount){
+    console.log(hoot_id, currentCount)
+    currentCount++;
+    return currentCount
+}
+
+function LikeBtn(hoot){
+    return "<button class='btn btn-primary btn-small' onclick=handleDidLike(" + 
+    hoot.id + "," + hoot.likes + ")>" + hoot.likes + " Likes</button>"
+}
+
+function formatHootElement(hoot){
+    var formattedHoot = "<div class='col-12 border rounded py-3 mb-4 hoot' id='hoot-" + hoot.id 
+    + "' ><p>" + hoot.content + 
+        "</p><div class='btn-group'>" + LikeBtn(hoot) + 
+        "</div></div>"
+    return formattedHoot
+}
+
 xhr.responseType = responseType
 xhr.open(method, url)
 xhr.onload = function() {
-    console.log(xhr.response)
+    const serverResponse = xhr.response
+    const listedItems = serverResponse.response
+    var finalHootStr = ""
+    var i;
+    for(i = 0;i<listedItems.length;i++){
+        var hootObj = listedItems[i]
+        finalHootStr += formatHootElement(hootObj)
+    }
+    hootsElement.innerHTML = finalHootStr
 }
 xhr.send()
 </script>
