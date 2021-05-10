@@ -8,19 +8,69 @@
     </div>
 </div>
 
+<div class='row mb-3'>
+    <div class='col-md-4 mx-auto col-10'>
+        <form class='form' id='hoot-create-form' method='POST' action='/create-hoot'>
+            {% csrf_token %}
+            <input type='hidden' value='/' name='next'/>
+            <textarea class='form-control' name='content' placeholder="Your Hoot..."></textarea>
+            <button type='submit' class='btn btn-primary'>Hoot</button>
+        </form>
+    </div>
+</div>
+
+
 <div class='row' id='hoots'>
     Loading...
 </div>
 
 <script> 
 
-const hootsElement = document.getElementById("hoots")
+function handleFormDidSubmit(event) {
+    event.preventDefault()
+    const myForm = event.target
+    const myFormData = new FormData(myForm)
+    const url = myForm.getAttribute("action")
+    const method = myForm.getAttribute("method")
+    const xhr = new XMLHttpRequest()
+    xhr.open(method, url)
+    xhr.onload = function() {
+        const serverResponse = xhr.response
+        const hootsEl = document.getElementById("hoots")
+        loadHoots(hootsEl)
+    }
+    xhr.send(myFormData)
+}
 
+const hootCreateFormEl = document.getElementById("hoot-create-form")
 
-const xhr = new XMLHttpRequest()
-const method = 'GET'
-const url = "/hoots"
-const responseType = "json"
+hootCreateFormEl.addEventListener("submit", handleFormDidSubmit)
+
+const hootsEl = document.getElementById("hoots")
+
+function loadHoots(hootsElement) {
+    const xhr = new XMLHttpRequest()
+    const method = 'GET'
+    const url = "/hoots"
+    const responseType = "json"
+
+    xhr.responseType = responseType
+    xhr.open(method, url)
+    xhr.onload = function() {
+        const serverResponse = xhr.response
+        const listedItems = serverResponse.response
+        var finalHootStr = ""
+        var i;
+        for(i = 0;i<listedItems.length;i++){
+            var hootObj = listedItems[i]
+            finalHootStr += formatHootElement(hootObj)
+        }
+        hootsElement.innerHTML = finalHootStr
+    }
+    xhr.send()
+}
+
+loadHoots(hootsEl)
 
 function handleDidLike(hoot_id, currentCount){
     console.log(hoot_id, currentCount)
@@ -41,20 +91,6 @@ function formatHootElement(hoot){
     return formattedHoot
 }
 
-xhr.responseType = responseType
-xhr.open(method, url)
-xhr.onload = function() {
-    const serverResponse = xhr.response
-    const listedItems = serverResponse.response
-    var finalHootStr = ""
-    var i;
-    for(i = 0;i<listedItems.length;i++){
-        var hootObj = listedItems[i]
-        finalHootStr += formatHootElement(hootObj)
-    }
-    hootsElement.innerHTML = finalHootStr
-}
-xhr.send()
 </script>
 
 {% endblock content %}

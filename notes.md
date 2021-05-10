@@ -17,3 +17,5 @@
 9) Forms in django take a look here https://docs.djangoproject.com/en/3.2/topics/forms/ check the view section associated with creating this
 
 10) Use forms in django to validate content (clean content) and to render the actual form
+
+11) Django HAS SECURITY FEATURE BUILT IN FOR safe url redirect (is_safe_url from settings)
