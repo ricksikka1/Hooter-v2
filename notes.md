@@ -19,3 +19,7 @@
 10) Use forms in django to validate content (clean content) and to render the actual form
 
 11) Django HAS SECURITY FEATURE BUILT IN FOR safe url redirect (is_safe_url from settings)
+
+12) AJAX requests help update pages async, so we can update without reloading the page
+
+13) Serialize model for convenience (Easier for javascript to take)

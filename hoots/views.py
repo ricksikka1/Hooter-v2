@@ -23,6 +23,8 @@ def hoot_create_view(request, *args, **kwargs):
     if form.is_valid():
         obj = form.save(commit=False)
         obj.save()
+        if request.is_ajax():
+            return JsonResponse(obj.serialize(), status=201)
         if next_url != None and is_safe_url(next_url, ALLOWED_HOSTS):
             return redirect(next_url)
         form = HootForm()
@@ -34,7 +36,7 @@ def hoot_list_view(request, *args, **kwargs):
     """
 
     qs = Hoot.objects.all()
-    hoots_list = [{"id": x.id, "content": x.content, "likes": random.randint(0, 1000)} for x in qs]
+    hoots_list = [x.serialize() for x in qs]
     data = {
         "response": hoots_list
     }

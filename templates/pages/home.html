@@ -13,7 +13,7 @@
         <form class='form' id='hoot-create-form' method='POST' action='/create-hoot'>
             {% csrf_token %}
             <input type='hidden' value='/' name='next'/>
-            <textarea class='form-control' name='content' placeholder="Your Hoot..."></textarea>
+            <textarea required='required' class='form-control' name='content' placeholder="Your Hoot..."></textarea>
             <button type='submit' class='btn btn-primary'>Hoot</button>
         </form>
     </div>
@@ -34,10 +34,17 @@ function handleFormDidSubmit(event) {
     const method = myForm.getAttribute("method")
     const xhr = new XMLHttpRequest()
     xhr.open(method, url)
+    xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
     xhr.onload = function() {
-        const serverResponse = xhr.response
-        const hootsEl = document.getElementById("hoots")
-        loadHoots(hootsEl)
+        if (xhr.status === 201){
+            const newHoot = xhr.response
+            const newHootJson = JSON.parse(newHoot)
+            const newHootElement = formatHootElement(newHootJson)
+            const ogHtml = hootsContainerElement.innerHTML
+            hootsContainerElement.innerHTML = newHootElement + ogHtml
+            myForm.reset()
+        }
     }
     xhr.send(myFormData)
 }
@@ -46,7 +53,7 @@ const hootCreateFormEl = document.getElementById("hoot-create-form")
 
 hootCreateFormEl.addEventListener("submit", handleFormDidSubmit)
 
-const hootsEl = document.getElementById("hoots")
+const hootsContainerElement = document.getElementById("hoots")
 
 function loadHoots(hootsElement) {
     const xhr = new XMLHttpRequest()
@@ -70,7 +77,7 @@ function loadHoots(hootsElement) {
     xhr.send()
 }
 
-loadHoots(hootsEl)
+loadHoots(hootsContainerElement)
 
 function handleDidLike(hoot_id, currentCount){
     console.log(hoot_id, currentCount)
