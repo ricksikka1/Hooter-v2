@@ -23,3 +23,7 @@
 12) AJAX requests help update pages async, so we can update without reloading the page
 
 13) Serialize model for convenience (Easier for javascript to take)
+
+14) Errors in pure JS is a pain, going to use React
+
+15) Users baked 
