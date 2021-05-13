@@ -5,7 +5,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, JsonResponse
 from django.utils.http import is_safe_url
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
 
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
@@ -21,6 +23,8 @@ def home_view(request, *args, **kwargs):
 
 
 @api_view(['POST']) # client has to send POST!
+# @authentication_classes([SessionAuthentication])
+@permission_classes([IsAuthenticated])
 def hoot_create_view(request, *args, **kwargs):
     serializer = HootSerializer(data=request.POST)
     if serializer.is_valid(raise_exception=True):
@@ -30,6 +34,21 @@ def hoot_create_view(request, *args, **kwargs):
 
 @api_view(['GET'])
 def hoot_list_view(request, *args, **kwargs):
+    qs = Hoot.objects.all()
+    serializer = HootSerializer(qs, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def hoot_detail_view(request, hoot_id, *args, **kwargs):
+    qs = Hoot.objects.filter(id=hoot_id)
+    if not qs.exists():
+        return Response({}, status=404)
+    obj = qs.first()
+    serializer = HootSerializer(obj)
+    return Response(serializer.data)
+
+
+
 
 def hoot_create_view_pure_django(request, *args, **kwargs):
     '''
@@ -71,7 +90,7 @@ def hoot_list_view_pure_django(request, *args, **kwargs):
     }
     return JsonResponse(data)
 
-def hoot_detail_view(request, hoot_id, *args, **kwargs):
+def hoot_detail_view_pure_django(request, hoot_id, *args, **kwargs):
     """
     Return REST API View (note 5)
     """

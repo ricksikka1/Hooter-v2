@@ -1,3 +1,5 @@
+REST API, User Auth, 
+
 1) Creating Django model. This is the abstracted level from the sql db. Django takes care a lot of this for us
 
 2) Dynamic routing. ok so this is on the fly changing views based on url paths. Great example here https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -36,4 +38,4 @@
 
 19) rest framework has serializer which takes care of the forms stuff from pure django, very clean
 
-20) rest framework decorator has api_view which can restrict access to views to only certain types of requests like POST
+20) rest framework decorator has api_view which can restrict access to views to only certain types of requests like POST... same with permissions decorater for User Auth

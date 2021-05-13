@@ -76,8 +76,9 @@ function handleFormDidSubmit(event) {
             
         } else if (xhr.status === 500) {
             alert("server error, try again")
-        } else if (xhr.status === 401) {
+        } else if (xhr.status === 403) {
             alert("You must login")
+            window.location.href = "/login"
         }
     }
     xhr.onerror = function() {
@@ -102,7 +103,7 @@ function loadHoots(hootsElement) {
     xhr.open(method, url)
     xhr.onload = function() {
         const serverResponse = xhr.response
-        const listedItems = serverResponse.response
+        const listedItems = serverResponse
         var finalHootStr = ""
         var i;
         for(i = 0;i<listedItems.length;i++){
