@@ -26,4 +26,14 @@
 
 14) Errors in pure JS is a pain, going to use React
 
-15) Users baked 
+15) Users functionality baked into django (foreign key ref in our tweets model)
+
+16) Django super user so that the hoots that exist tie on to this first user. 
+
+17) Use django admin for internal use, login and alter admin.py to import ur Hoot model to see all the objects, can add search fields etc.
+
+18) Pure django is a pain for this giant view, time to use Django REST framework
+
+19) rest framework has serializer which takes care of the forms stuff from pure django, very clean
+
+20) rest framework decorator has api_view which can restrict access to views to only certain types of requests like POST

@@ -1,27 +1,53 @@
 import random
+import re
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, JsonResponse
 from django.utils.http import is_safe_url
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 
 from .forms import HootForm
 from .models import Hoot
+from .serializers import HootSerializer
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
     #return HttpResponse("<h1>Hello World</h1>")
     return render(request, "pages/home.html", context={}, status=200)
 
+
+@api_view(['POST']) # client has to send POST!
 def hoot_create_view(request, *args, **kwargs):
+    serializer = HootSerializer(data=request.POST)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=201)
+    return Response({}, status=400)
+
+@api_view(['GET'])
+def hoot_list_view(request, *args, **kwargs):
+
+def hoot_create_view_pure_django(request, *args, **kwargs):
+    '''
+    REST API Create View -> Django REST
+    '''
+    user = request.user
+    if not request.user.is_authenticated:
+        user = None
+        if request.is_ajax():
+            return JsonResponse({}, status=401)
+        return redirect(settings.LOGIN_URL)
     # create a form instance and populate it with data from the request
     form = HootForm(request.POST or None)
     next_url = request.POST.get("next") or None
      # check whether it's valid
     if form.is_valid():
         obj = form.save(commit=False)
+        obj.user = user
         obj.save()
         if request.is_ajax():
             return JsonResponse(obj.serialize(), status=201)
@@ -33,7 +59,7 @@ def hoot_create_view(request, *args, **kwargs):
             return JsonResponse(form.errors, status=400)
     return render(request, 'components/form.html', context={"form": form})
 
-def hoot_list_view(request, *args, **kwargs):
+def hoot_list_view_pure_django(request, *args, **kwargs):
     """
     Return REST API View (note 5)
     """

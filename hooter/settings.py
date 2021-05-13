@@ -28,6 +28,8 @@ SECRET_KEY = 'b#i^n)2zbjbws1(v=uklnh&uloyzsm*)2k%^ul50&o#d#mxc4@'
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
+LOGIN_URL = "/login"
+MAX_LEN = 240
 
 
 # Application definition
@@ -40,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # third party
+    'rest_framework',
+    # internal
     'hoots',
 ]
 

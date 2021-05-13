@@ -76,6 +76,8 @@ function handleFormDidSubmit(event) {
             
         } else if (xhr.status === 500) {
             alert("server error, try again")
+        } else if (xhr.status === 401) {
+            alert("You must login")
         }
     }
     xhr.onerror = function() {
