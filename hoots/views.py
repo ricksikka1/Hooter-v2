@@ -47,6 +47,22 @@ def hoot_detail_view(request, hoot_id, *args, **kwargs):
     serializer = HootSerializer(obj)
     return Response(serializer.data)
 
+@api_view(['DELETE', 'POST'])
+@permission_classes([IsAuthenticated])
+def hoot_delete_view(request, hoot_id, *args, **kwargs):
+    qs = Hoot.objects.filter(id=hoot_id)
+    if not qs.exists():
+        return Response({}, status=404)
+    qs = qs.filter(user=request.user)
+    if not qs.exists():
+        return Response({"message": "You cannot delete this"}, status=401)
+    obj = qs.first()
+    obj.delete()
+    return Response({"message": "Hoot Removed"}, status=200)
+
+
+
+
 
 
 
