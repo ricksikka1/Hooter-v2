@@ -4,6 +4,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, JsonResponse
 from django.utils.http import is_safe_url
+from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
@@ -14,7 +15,7 @@ ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 from .forms import HootForm
 from .models import Hoot
-from .serializers import HootSerializer
+from .serializers import HootSerializer, HootActionSerializer
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
@@ -60,6 +61,31 @@ def hoot_delete_view(request, hoot_id, *args, **kwargs):
     obj.delete()
     return Response({"message": "Hoot Removed"}, status=200)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def hoot_action_view(request, *args, **kwargs):
+    '''
+    id is required
+    Action options are: like, unlike, retweet
+    '''
+    serializer = HootActionSerializer(request.POST)
+    if serializer.is_valid(raise_exception=True):
+        data = serializer.validated_data
+        hoot_id = data.get("id")
+        action = data.get("action")
+
+    qs = Hoot.objects.filter(id=hoot_id)
+    if not qs.exists():
+        return Response({}, status=404)
+    obj = qs.first()
+    if action == "like":
+        obj.likes.add(request.user)
+    elif action == "unlike":
+        obj.likes.remove(request.user)
+    elif action == "retweet":
+        #todo
+        pass
+    return Response({"message": "Hoot Removed"}, status=200)
 
 
 

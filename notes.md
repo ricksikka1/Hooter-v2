@@ -39,3 +39,5 @@ REST API, User Auth,
 19) rest framework has serializer which takes care of the forms stuff from pure django, very clean
 
 20) rest framework decorator has api_view which can restrict access to views to only certain types of requests like POST... same with permissions decorater for User Auth
+
+21) Likes are many to many field (filled with Users) .... thank you ECE356
