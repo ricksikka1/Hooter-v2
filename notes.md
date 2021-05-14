@@ -26,7 +26,7 @@ REST API, User Auth,
 
 13) Serialize model for convenience (Easier for javascript to take)
 
-14) Errors in pure JS is a pain, going to use React
+14) Errors in pure JS are a pain, going to use React
 
 15) Users functionality baked into django (foreign key ref in our tweets model)
 
