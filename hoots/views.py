@@ -74,20 +74,25 @@ def hoot_action_view(request, *args, **kwargs):
         data = serializer.validated_data
         hoot_id = data.get("id")
         action = data.get("action")
-
-    qs = Hoot.objects.filter(id=hoot_id)
-    if not qs.exists():
-        return Response({}, status=404)
-    obj = qs.first()
-    if action == "like":
-        obj.likes.add(request.user)
-        serializer = HootSerializer(obj)
+        content = data.get("content")
+        qs = Hoot.objects.filter(id=hoot_id)
+        if not qs.exists():
+            return Response({}, status=404)
+        obj = qs.first()
+        if action == "like":
+            obj.likes.add(request.user)
+            serializer = HootSerializer(obj)
+            return Response(serializer.data, status=200)
+        elif action == "unlike":
+            obj.likes.remove(request.user)
+        elif action == "rehoot":
+            new_hoot = Hoot.objects.create(
+                    user=request.user, 
+                    parent=obj,
+                    content=content)
+        serializer = HootSerializer(new_hoot)
         return Response(serializer.data, status=200)
-    elif action == "unlike":
-        obj.likes.remove(request.user)
-    elif action == "rehoot":
-        #todo
-        pass
+
     return Response({}, status=200)
 
 

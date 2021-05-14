@@ -10,7 +10,9 @@ class HootLike(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class Hoot(models.Model):
+    # Maps to SQL data
     # id = models.Autofield(primary_key=True)
+    parent = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, related_name='hoot_user', blank=True, through=HootLike)
     content = models.TextField(blank=True, null=True)

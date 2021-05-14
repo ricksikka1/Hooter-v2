@@ -8,6 +8,7 @@ HOOT_ACTION_OPTIONS = ["like", "unlike", "rehoot"]
 class HootActionSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     action = serializers.CharField()
+    content = serializers.CharField(allow_blank=True, required=False)
 
     def validate_action(self, value):
         value = value.lower().strip()
