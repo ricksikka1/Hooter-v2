@@ -41,3 +41,5 @@ REST API, User Auth,
 20) rest framework decorator has api_view which can restrict access to views to only certain types of requests like POST... same with permissions decorater for User Auth
 
 21) Likes are many to many field (filled with Users) .... thank you ECE356
+
+22) React will handle our liked/unliked state stuff

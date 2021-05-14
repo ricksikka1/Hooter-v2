@@ -3,7 +3,7 @@ from django.conf import settings
 
 from .models import Hoot
 
-HOOT_ACTION_OPTIONS = ["like", "unlike", "retweet"]
+HOOT_ACTION_OPTIONS = ["like", "unlike", "rehoot"]
 
 class HootActionSerializer(serializers.Serializer):
     id = serializers.IntegerField()
@@ -16,9 +16,13 @@ class HootActionSerializer(serializers.Serializer):
         return value
 
 class HootSerializer(serializers.ModelSerializer):
+    likes = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Hoot
-        fields = ['content']
+        fields = ['id', 'content', 'likes']
+
+    def get_likes(self, obj):
+        return obj.likes.count()
 
     def validate(self, value):
         if len(value) > settings.MAX_LEN:

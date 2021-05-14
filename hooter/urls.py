@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from hoots.views import (
-    home_view, hoot_detail_view, hoot_list_view, hoot_create_view, hoot_delete_view
+    home_view, hoot_detail_view, hoot_list_view, hoot_create_view, hoot_delete_view, hoot_action_view
 )
 
 urlpatterns = [
@@ -26,5 +26,6 @@ urlpatterns = [
     path('create-hoot', hoot_create_view),
     path('hoots', hoot_list_view),
     path('hoots/<int:hoot_id>', hoot_detail_view),
+    path('api/hoots/action', hoot_action_view),
     path('api/hoots/<int:hoot_id>/delete', hoot_delete_view),
 ]
