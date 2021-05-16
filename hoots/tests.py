@@ -92,5 +92,3 @@ class HootTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
         incorrect_owner_response = client.delete("/api/hoots/3/delete/")
         self.assertEqual(incorrect_owner_response.status_code, 401)
-
-    
