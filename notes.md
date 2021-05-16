@@ -1,4 +1,4 @@
-REST API, User Auth, 
+REST API, User Auth, Unit Testing, Serialization
 
 1) Creating Django model. This is the abstracted level from the sql db. Django takes care a lot of this for us
 
@@ -47,3 +47,7 @@ REST API, User Auth,
 22) Two types of serializers, create and readonly!
 
 23) @property decorater is pythonic Getter & Setters
+
+24) django has a built in test suite (tests.py) https://docs.djangoproject.com/en/3.2/topics/testing/ but this is for basic django
+
+25) django REST testing framework here https://www.django-rest-framework.org/api-guide/testing/ to test my API

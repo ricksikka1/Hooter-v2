@@ -67,7 +67,6 @@ def hoot_action_view(request, *args, **kwargs):
     id is required
     Action options are: like, unlike, retweet
     '''
-    print("we in here")
     serializer = HootActionSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         data = serializer.validated_data
@@ -84,13 +83,15 @@ def hoot_action_view(request, *args, **kwargs):
             return Response(serializer.data, status=200)
         elif action == "unlike":
             obj.likes.remove(request.user)
+            serializer = HootSerializer(obj)
+            return Response(serializer.data, status=200)
         elif action == "rehoot":
             new_hoot = Hoot.objects.create(
                     user=request.user, 
                     parent=obj,
                     content=content)
-        serializer = HootSerializer(new_hoot)
-        return Response(serializer.data, status=200)
+            serializer = HootSerializer(new_hoot)
+            return Response(serializer.data, status=201)
 
     return Response({}, status=200)
 
