@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from hoots.views import (
     home_view, hoot_detail_view, hoot_list_view, hoot_create_view, hoot_delete_view, hoot_action_view
@@ -26,6 +26,5 @@ urlpatterns = [
     path('create-hoot', hoot_create_view),
     path('hoots', hoot_list_view),
     path('hoots/<int:hoot_id>', hoot_detail_view),
-    path('api/hoots/action', hoot_action_view),
-    path('api/hoots/<int:hoot_id>/delete', hoot_delete_view),
+    path('api/hoots/', include('hoots.urls'))
 ]

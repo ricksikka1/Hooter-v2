@@ -16,7 +16,7 @@ class HootActionSerializer(serializers.Serializer):
             raise serializers.ValidationError("Not a valid action")
         return value
 
-class HootSerializer(serializers.ModelSerializer):
+class HootCreateSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Hoot
@@ -29,3 +29,14 @@ class HootSerializer(serializers.ModelSerializer):
         if len(value) > settings.MAX_LEN:
             raise serializers.ValidationError("This hoot is too long")
         return value
+
+class HootSerializer(serializers.ModelSerializer):
+    likes = serializers.SerializerMethodField(read_only=True)
+    parent = HootCreateSerializer(read_only=True)
+
+    class Meta:
+        model = Hoot
+        fields = ['id', 'content', 'likes', 'is_rehoot', 'parent']
+
+    def get_likes(self, obj):
+        return obj.likes.count()

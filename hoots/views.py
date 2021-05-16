@@ -15,7 +15,7 @@ ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 from .forms import HootForm
 from .models import Hoot
-from .serializers import HootSerializer, HootActionSerializer
+from .serializers import HootSerializer, HootActionSerializer, HootCreateSerializer
 
 # Create your views here.
 def home_view(request, *args, **kwargs):
@@ -24,10 +24,9 @@ def home_view(request, *args, **kwargs):
 
 
 @api_view(['POST']) # client has to send POST!
-# @authentication_classes([SessionAuthentication])
 @permission_classes([IsAuthenticated])
 def hoot_create_view(request, *args, **kwargs):
-    serializer = HootSerializer(data=request.POST)
+    serializer = HootCreateSerializer(data=request.POST)
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
         return Response(serializer.data, status=201)

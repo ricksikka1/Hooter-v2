@@ -43,3 +43,7 @@ REST API, User Auth,
 21) Likes are many to many field (filled with Users) .... thank you ECE356
 
 22) React will handle our liked/unliked state stuff
+
+22) Two types of serializers, create and readonly!
+
+23) @property decorater is pythonic Getter & Setters
