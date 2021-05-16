@@ -12,10 +12,11 @@ class HootTestCase(TestCase):
     Need to Put DB related items in here setUp
     '''
     def setUp(self):
-        self.user = User.objects.create_user(username='abc', password='somepassword') 
+        self.user = User.objects.create_user(username='abc', password='somepassword')
+        self.user_B = User.objects.create_user(username='user2', password='somepassword') 
         Hoot.objects.create(content="My First Hoot", user=self.user)
         Hoot.objects.create(content="My Second Hoot", user=self.user)
-        Hoot.objects.create(content="My Third Hoot", user=self.user)
+        Hoot.objects.create(content="My Third Hoot", user=self.user_B)
         self.currentCount = Hoot.objects.all().count()
 
     '''
@@ -74,3 +75,22 @@ class HootTestCase(TestCase):
         new_hoot_id = data.get("id")
         self.assertNotEqual(2, new_hoot_id)
         self.assertEqual(self.currentCount + 1, new_hoot_id)
+
+    def test_detail_view(self):
+        client = self.get_client()
+        response = client.get("/api/hoots/1/")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        _id = data.get("id")
+        self.assertEqual(_id, 1)
+    
+    def test_delete(self):
+        client = self.get_client()
+        response = client.delete("/api/hoots/1/delete/")
+        self.assertEqual(response.status_code, 200)
+        response = client.delete("/api/hoots/1/delete/")
+        self.assertEqual(response.status_code, 404)
+        incorrect_owner_response = client.delete("/api/hoots/3/delete/")
+        self.assertEqual(incorrect_owner_response.status_code, 401)
+
+    
