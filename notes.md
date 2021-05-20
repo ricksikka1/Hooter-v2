@@ -1,4 +1,4 @@
-REST API, User Auth, Unit Testing, Serialization
+REST API, User Auth, Unit Testing, Serialization, React hooks
 
 1) Creating Django model. This is the abstracted level from the sql db. Django takes care a lot of this for us
 
@@ -51,3 +51,11 @@ REST API, User Auth, Unit Testing, Serialization
 24) django has a built in test suite (tests.py) https://docs.djangoproject.com/en/3.2/topics/testing/ but this is for basic django
 
 25) django REST testing framework here https://www.django-rest-framework.org/api-guide/testing/ to test my API
+
+------------------------------------------------ REACT TIME -------------------------------------------------------------------
+
+1) React hooks are special functions that let us "hook into" React features
+
+2) useEffect Hook allows us to do something as a side effect, after rendor is done it will check if anythings changed
+
+3) useState allows us to have state variables in our components (functions) 
