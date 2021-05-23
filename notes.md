@@ -52,6 +52,8 @@ REST API, User Auth, Unit Testing, Serialization, React hooks
 
 25) django REST testing framework here https://www.django-rest-framework.org/api-guide/testing/ to test my API
 
+26) Cors, allow any site to have access to my api 
+
 ------------------------------------------------ REACT TIME -------------------------------------------------------------------
 
 1) React hooks are special functions that let us "hook into" React features
@@ -59,3 +61,7 @@ REST API, User Auth, Unit Testing, Serialization, React hooks
 2) useEffect Hook allows us to do something as a side effect, after rendor is done it will check if anythings changed
 
 3) useState allows us to have state variables in our components (functions) 
+
+4) Use props to pass data between components (parent to child), this reallllly helps for dynamic rendering
+
+5) Functional components are much easier to use then stringing things together
