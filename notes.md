@@ -65,3 +65,5 @@ REST API, User Auth, Unit Testing, Serialization, React hooks
 4) Use props to pass data between components (parent to child), this reallllly helps for dynamic rendering
 
 5) Functional components are much easier to use then stringing things together
+
+6) Use setState to handle state variables such as liked for proper functionality [var, function that updates var] = setState(init val)
