@@ -67,3 +67,7 @@ REST API, User Auth, Unit Testing, Serialization, React hooks
 5) Functional components are much easier to use then stringing things together
 
 6) Use setState to handle state variables such as liked for proper functionality [var, function that updates var] = setState(init val)
+
+7) Use refs to modify a child outside the typical outflow (such as managing the text section of the form area)
+
+8) npm run build to get our react app production ready and to be rendered by django, usually use nginx or s3 to serve static files

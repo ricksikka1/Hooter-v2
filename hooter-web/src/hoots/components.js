@@ -2,13 +2,55 @@ import React, {useEffect, useState} from 'react'
 
 import {loadHoots} from '../lookup'
 
+export function HootsComponent(props) {
+
+  const textAreaRef = React.createRef()
+  const [newHoots, setNewHoots] = useState([])
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const newVal = textAreaRef.current.value
+    
+    let tempNewHoots = [...newHoots]
+    tempNewHoots.unshift({
+      content: newVal,
+      likes: 0,
+      id: 12313
+    })
+    setNewHoots(tempNewHoots)
+    textAreaRef.current.value = ''
+  }
+
+  return <div className={props.className}>
+      <div className='col-12 mb-3'>
+        <form onSubmit={handleSubmit}>
+          <textarea ref={textAreaRef} required={true} className='form-control' name='hoot'>
+
+          </textarea>
+          <button type='submit' className='btn btn-primary my-3'>Hoot</button>
+        </form>
+      </div>
+    <HootsList newHoots={newHoots}/>
+  </div>
+
+}
+
 export function HootsList(props) {
+    const [hootsInit, setHootsInit] = useState([])
     const [hoots, setHoots] = useState([])
-  
+
+    useEffect(() => {
+      const final = [...props.newHoots].concat(hootsInit)
+      if (final.length !== hoots.length) {
+        setHoots(final)
+      }
+      
+    }, [props.newHoots, hoots, hootsInit])
+
     useEffect(() => {
       const callBack = (response, status) => {
         if(status === 200) {
-          setHoots(response)
+          setHootsInit(response)
         }
       }
       loadHoots(callBack)
