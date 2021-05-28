@@ -70,4 +70,4 @@ REST API, User Auth, Unit Testing, Serialization, React hooks
 
 7) Use refs to modify a child outside the typical outflow (such as managing the text section of the form area)
 
-8) npm run build to get our react app production ready and to be rendered by django, usually use nginx or s3 to serve static files
+8) npm run build to get our react app production ready and to be rendered by django, usually use nginx or s3 to serve static files instead
