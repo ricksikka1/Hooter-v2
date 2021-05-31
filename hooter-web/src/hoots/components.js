@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 
-import {loadHoots} from '../lookup'
+import {loadHoots, createHoot} from '../lookup'
 
 export function HootsComponent(props) {
 
@@ -12,10 +12,13 @@ export function HootsComponent(props) {
     const newVal = textAreaRef.current.value
     
     let tempNewHoots = [...newHoots]
-    tempNewHoots.unshift({
-      content: newVal,
-      likes: 0,
-      id: 12313
+    createHoot(newVal, (response, status) => {
+      if(status === 201) {
+        tempNewHoots.unshift(response)
+      } else {
+        console.log(response)
+        alert("An error occured")
+      }
     })
     setNewHoots(tempNewHoots)
     textAreaRef.current.value = ''
@@ -53,12 +56,12 @@ export function HootsList(props) {
         const callBack = (response, status) => {
           if(status === 200) {
             setHootsInit(response)
-            SetHootsDidSet(true)
+            setHootsDidSet(true)
           }
         }
         loadHoots(callBack)
       }
-    }, [hootsInit, hootsDidSet, SetHootsDidSet])
+    }, [hootsInit, hootsDidSet, setHootsDidSet])
     return hoots.map((item, index) => {
       return <Hoot hoot={item} className='my-5 py-5 border bg-white text-dark' key={`${index}-item.id`}/>
     })

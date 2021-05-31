@@ -1,5 +1,6 @@
-import {loadHoots} from './components'
+import {loadHoots, createHoot} from './components'
 
 export {
-    loadHoots
+    loadHoots,
+    createHoot
 }

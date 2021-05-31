@@ -29,7 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view),
     path('react/', TemplateView.as_view(template_name='react_via_dj.html')),
-    path('create-hoot', hoot_create_view),
+    path('create', hoot_create_view),
     path('hoots', hoot_list_view),
     path('hoots/<int:hoot_id>', hoot_detail_view),
     path('api/hoots/', include('hoots.urls'))
