@@ -13,10 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from re import template
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+
+from django.views.generic import TemplateView
 
 from hoots.views import (
     home_view, hoot_detail_view, hoot_list_view, hoot_create_view, hoot_delete_view, hoot_action_view
@@ -25,6 +28,7 @@ from hoots.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view),
+    path('react/', TemplateView.as_view(template_name='react_via_dj.html')),
     path('create-hoot', hoot_create_view),
     path('hoots', hoot_list_view),
     path('hoots/<int:hoot_id>', hoot_detail_view),
