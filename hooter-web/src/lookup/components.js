@@ -1,10 +1,13 @@
-export function loadHoots(callBack) {
+function lookup(method, endpoint, callback, data) {
+    let JsonData;
+    if(data){
+        JsonData = JSON.stringify(data)
+    }
+
     const xhr = new XMLHttpRequest()
-    const method = 'GET'
-    const url = "http://localhost:8000/api/hoots/"
-    const responseType = "json"
+    const url = `http://localhost:8000/api${endpoint}`
   
-    xhr.responseType = responseType
+    xhr.responseType = "json"
     xhr.open(method, url)
     xhr.onload = function() {
         callBack(xhr.response, xhr.status)
@@ -12,5 +15,9 @@ export function loadHoots(callBack) {
     xhr.onerror = function(e) {
         callBack({"message": "The request was an error"}, 400)
     }
-    xhr.send()
+    xhr.send(JsonData)
+}
+
+export function loadHoots(callBack) {
+    lookup("GET", "/hoots/", callBack)
 }

@@ -38,6 +38,7 @@ export function HootsComponent(props) {
 export function HootsList(props) {
     const [hootsInit, setHootsInit] = useState([])
     const [hoots, setHoots] = useState([])
+    const [hootsDidSet, setHootsDidSet] = useState(false)
 
     useEffect(() => {
       const final = [...props.newHoots].concat(hootsInit)
@@ -48,14 +49,16 @@ export function HootsList(props) {
     }, [props.newHoots, hoots, hootsInit])
 
     useEffect(() => {
-      const callBack = (response, status) => {
-        if(status === 200) {
-          setHootsInit(response)
+      if (hootsDidSet === false) {
+        const callBack = (response, status) => {
+          if(status === 200) {
+            setHootsInit(response)
+            SetHootsDidSet(true)
+          }
         }
+        loadHoots(callBack)
       }
-      loadHoots(callBack)
-      
-    }, [])
+    }, [hootsInit, hootsDidSet, SetHootsDidSet])
     return hoots.map((item, index) => {
       return <Hoot hoot={item} className='my-5 py-5 border bg-white text-dark' key={`${index}-item.id`}/>
     })
