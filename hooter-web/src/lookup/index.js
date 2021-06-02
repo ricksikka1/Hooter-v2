@@ -1,6 +1,5 @@
-import {loadHoots, createHoot} from './components'
+import {backendlookup} from './components'
 
 export {
-    loadHoots,
-    createHoot
+    backendlookup
 }

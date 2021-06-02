@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 
-import {loadHoots, createHoot} from '../lookup'
+import {apiHootCreate, apiHootList, apiHootAction} from './lookup'
 
 export function HootsComponent(props) {
 
@@ -12,7 +12,7 @@ export function HootsComponent(props) {
     const newVal = textAreaRef.current.value
     
     let tempNewHoots = [...newHoots]
-    createHoot(newVal, (response, status) => {
+    apiHootCreate(newVal, (response, status) => {
       if(status === 201) {
         tempNewHoots.unshift(response)
         setNewHoots(tempNewHoots)
@@ -59,7 +59,7 @@ export function HootsList(props) {
             setHootsDidSet(true)
           }
         }
-        loadHoots(callBack)
+        apiHootList(callBack)
       }
     }, [hootsInit, hootsDidSet, setHootsDidSet])
     return hoots.map((item, index) => {
@@ -68,39 +68,60 @@ export function HootsList(props) {
 }
 
 export function ActionBtn(props){
-    const {hoot, action} = props
-    const [likes, setLikes] = useState(hoot.likes ? hoot.likes : 0)
-    const [useLike, setUserLike] = useState(hoot.useLike === true ? true : false)
+    const {hoot, action, didAction} = props
+    const likes = hoot.likes ? hoot.likes : 0
     const className = props.className ? props.className : 'btn btn-primary btn-small'
     const actionDisplay = action.display ? action.display : 'Action'
     
     const handleClick = (event) => {
       event.preventDefault()
-      if(action.type === 'like'){
+      apiHootAction(hoot.id, action.type, handleAction)
+    }
 
-        if(useLike === true){
-          setUserLike(false)
-          setLikes(likes-1)
-        }else{
-          setUserLike(true)
-          setLikes(likes+1)
-        }
-
+    const handleAction = (response, status) => {
+      console.log(response, status)
+      if ((status === 200 || status === 201) && didAction) {
+        didAction(response, status)
       }
     }
+
     const display = action.type === "like" ? `${likes} ${actionDisplay}` : actionDisplay
     return <button className={className} onClick={handleClick}>{display}</button>
+}
+
+export function ParentHoot(props) {
+  const {hoot} = props
+  return hoot.parent ? <div className='row'>
+    <div className='col-11 mx-auto p-3 border rounded'>
+      <p className='mb-0 text-muted small'>ReHoot</p>
+      <Hoot className={' '} hoot={hoot.parent}/>
+    </div>
+  </div> : null
 }
   
 export function Hoot(props) {
     const {hoot, action} = props
+    const [actionHoot, setActionHoot] = useState(props.hoot ? props.hoot : null)
     const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
+
+    const PerformAction = (newActionHoot, status) => {
+      if (status === 200) {
+        setActionHoot(newActionHoot)
+      } else if (status === 201){
+        // Let the hootList know
+      }
+    }
+
     return <div className={className}>
-        <p>{hoot.id} - {hoot.content}</p>
-        <div className='btn btn-group'>
-          <ActionBtn hoot={hoot} action={{type:"like", display:"Likes"}}/>
-          <ActionBtn hoot={hoot} action={{type:"unlike", display:"Unlike"}}/>
-          <ActionBtn hoot={hoot} action={{type:"rehoot", display:"ReHoot"}}/>
+        <div>
+          <p>{hoot.id} - {hoot.content}</p>
+          <ParentHoot hoot={hoot} />
         </div>
+        
+        {actionHoot && <div className='btn btn-group'>
+          <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"like", display:"Likes"}}/>
+          <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"unlike", display:"Unlike"}}/>
+          <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"rehoot", display:"ReHoot"}}/>
+        </div>}
     </div>
 }

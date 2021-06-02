@@ -1,4 +1,4 @@
-function lookup(method, endpoint, callBack, data) {
+export function backendlookup(method, endpoint, callBack, data) {
     let JsonData;
     if(data){
         JsonData = JSON.stringify(data)
@@ -25,14 +25,6 @@ function lookup(method, endpoint, callBack, data) {
         callBack({"message": "The request was an error"}, 400)
     }
     xhr.send(JsonData)
-}
-
-export function createHoot(newHoot, callback) {
-    lookup("POST", "/hoots/create/", callback, {content: newHoot})
-}
-
-export function loadHoots(callBack) {
-    lookup("GET", "/hoots/", callBack)
 }
 
 function getCookie(name) {
