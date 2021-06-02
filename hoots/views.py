@@ -26,7 +26,7 @@ def home_view(request, *args, **kwargs):
 @api_view(['POST']) # client has to send POST!
 @permission_classes([IsAuthenticated])
 def hoot_create_view(request, *args, **kwargs):
-    serializer = HootCreateSerializer(data=request.POST)
+    serializer = HootCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
         return Response(serializer.data, status=201)

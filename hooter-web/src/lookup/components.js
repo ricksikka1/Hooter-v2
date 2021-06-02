@@ -11,7 +11,7 @@ function lookup(method, endpoint, callBack, data) {
     
     xhr.responseType = "json"
     xhr.open(method, url)
-    xhr.setRequestHeader("Content-Type", "text/plain")
+    xhr.setRequestHeader("Content-Type", "application/json")
     // if (csrftoken) {
     //     console.log("this shouldnt work")
     //     xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")

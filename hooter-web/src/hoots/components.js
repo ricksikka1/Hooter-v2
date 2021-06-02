@@ -15,12 +15,12 @@ export function HootsComponent(props) {
     createHoot(newVal, (response, status) => {
       if(status === 201) {
         tempNewHoots.unshift(response)
+        setNewHoots(tempNewHoots)
       } else {
         console.log(response)
         alert("An error occured")
       }
     })
-    setNewHoots(tempNewHoots)
     textAreaRef.current.value = ''
   }
 

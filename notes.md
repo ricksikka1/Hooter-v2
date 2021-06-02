@@ -54,6 +54,8 @@ REST API, User Auth, Unit Testing, Serialization, React hooks
 
 26) Cors, allow any site to have access to my api 
 
+27) Add custom authentication in settings under Rest_framework (ONLY FOR DEV PURPOSES)
+
 ------------------------------------------------ REACT TIME -------------------------------------------------------------------
 
 1) React hooks are special functions that let us "hook into" React features
