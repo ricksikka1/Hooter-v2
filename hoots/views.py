@@ -17,11 +17,22 @@ from .forms import HootForm
 from .models import Hoot
 from .serializers import HootSerializer, HootActionSerializer, HootCreateSerializer
 
-# Create your views here.
+# HTML Rendering
 def home_view(request, *args, **kwargs):
-    #return HttpResponse("<h1>Hello World</h1>")
-    return render(request, "pages/home.html", context={}, status=200)
+    username = None
+    if request.user.is_authenticated:
+        username = request.user.username
+    return render(request, "pages/home.html", context={"username": username}, status=200)
 
+def local_hoots_list_view(request, *args, **kwargs):
+    return render(request, "hoots/list.html")
+
+def local_hoots_detail_view(request, hoot_Id, *args, **kwargs):
+    print("here i am")
+    return render(request, "hoots/detail.html", context={"hoot_Id": hoot_Id})
+
+def local_hoots_profile_view(request, username, *args, **kwargs):
+    return render(request, "hoots/profile.html", context={"profile_username": username}, status=200)
 
 @api_view(['POST']) # client has to send POST!
 @permission_classes([IsAuthenticated])
@@ -97,6 +108,10 @@ def hoot_action_view(request, *args, **kwargs):
             return Response(serializer.data, status=201)
 
     return Response({}, status=200)
+
+
+
+
 
 
 

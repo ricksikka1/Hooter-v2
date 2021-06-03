@@ -22,15 +22,13 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 from hoots.views import (
-    home_view, hoot_detail_view, hoot_list_view, hoot_create_view, hoot_delete_view, hoot_action_view
+    local_hoots_list_view, local_hoots_detail_view, local_hoots_profile_view 
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_view),
-    path('react/', TemplateView.as_view(template_name='react_via_dj.html')),
-    path('create', hoot_create_view),
-    path('hoots', hoot_list_view),
-    path('hoots/<int:hoot_id>', hoot_detail_view),
+    path('', local_hoots_list_view),
+    path('<int:hoot_Id>', local_hoots_detail_view),
+    path('profile/<str:username>', local_hoots_profile_view),
     path('api/hoots/', include('hoots.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
