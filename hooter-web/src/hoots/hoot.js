@@ -16,7 +16,13 @@ export function ParentHoot(props) {
       const {hoot, didReHoot, hideAction} = props
       const [actionHoot, setActionHoot] = useState(props.hoot ? props.hoot : null)
       const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
-  
+
+      const path = window.location.pathname
+      const match = path.match(/(?<hootid>\d+)/)
+      const urlHootId = match ? match.groups.hootid : -1
+
+      const isDetail = `${hoot.id}` === `${urlHootId}`
+
       const PerformAction = (newActionHoot, status) => {
         if (status === 200) {
           setActionHoot(newActionHoot)
@@ -26,6 +32,11 @@ export function ParentHoot(props) {
           }
         }
       }
+
+      const handleLink = (event) => {
+        event.preventDefault()
+        window.location.href = `/${hoot.id}`
+      }
   
       return <div className={className}>
           <div>
@@ -33,10 +44,14 @@ export function ParentHoot(props) {
             <ParentHoot hoot={hoot} />
           </div>
           
-          {(actionHoot && hideAction !== true) && <div className='btn btn-group'>
-            <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"like", display:"Likes"}}/>
-            <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"unlike", display:"Unlike"}}/>
-            <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"rehoot", display:"ReHoot"}}/>
-          </div>}
+          <div className='btn btn-group'>
+          {(actionHoot && hideAction !== true) && <React.Fragment>
+              <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"like", display:"Likes"}}/>
+              <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"unlike", display:"Unlike"}}/>
+              <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"rehoot", display:"ReHoot"}}/>
+            </React.Fragment>
+          }
+            {isDetail === true ? null : <button className='btn btn-outline-primary btn-sm' onClick={handleLink}>View</button>}
+          </div>
       </div>
   }
