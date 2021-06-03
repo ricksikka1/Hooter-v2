@@ -9,6 +9,14 @@ export function apiHootAction(hootId, action, callback) {
     backendlookup("POST", "/hoots/action/", callback, data)
 }
 
-export function apiHootList(callBack) {
-    backendlookup("GET", "/hoots/", callBack)
+export function apiHootDetail(hootId, callBack) {
+    backendlookup("GET", `/hoots/${hootId}/`, callBack)
+}
+
+export function apiHootList(username, callBack) {
+    let endpoint = "/hoots/"
+    if (username) {
+        endpoint = `/hoots/?username=${username}`
+    }
+    backendlookup("GET", endpoint, callBack)
 }

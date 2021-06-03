@@ -35,6 +35,9 @@ def hoot_create_view(request, *args, **kwargs):
 @api_view(['GET'])
 def hoot_list_view(request, *args, **kwargs):
     qs = Hoot.objects.all()
+    username = request.GET.get('username') # ?username=rick
+    if username:
+        qs = qs.filter(user__username__iexact=username)
     serializer = HootSerializer(qs, many=True)
     return Response(serializer.data)
 

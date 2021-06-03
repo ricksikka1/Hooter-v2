@@ -3,10 +3,10 @@ import React, {useEffect, useState} from 'react'
 import {apiHootCreate, apiHootList, apiHootAction} from './lookup'
 
 export function HootsComponent(props) {
-
   const textAreaRef = React.createRef()
   const [newHoots, setNewHoots] = useState([])
 
+  const canHoot = props.canHoot === "false" ? false : true
   const handleSubmit = (event) => {
     event.preventDefault()
     const newVal = textAreaRef.current.value
@@ -25,7 +25,7 @@ export function HootsComponent(props) {
   }
 
   return <div className={props.className}>
-      <div className='col-12 mb-3'>
+      {canHoot === true && <div className='col-12 mb-3'>
         <form onSubmit={handleSubmit}>
           <textarea ref={textAreaRef} required={true} className='form-control' name='hoot'>
 
@@ -33,7 +33,8 @@ export function HootsComponent(props) {
           <button type='submit' className='btn btn-primary my-3'>Hoot</button>
         </form>
       </div>
-    <HootsList newHoots={newHoots}/>
+      }
+    <HootsList newHoots={newHoots} {...props}/>
   </div>
 
 }
@@ -59,11 +60,26 @@ export function HootsList(props) {
             setHootsDidSet(true)
           }
         }
-        apiHootList(callBack)
+        apiHootList(props.username, callBack)
       }
-    }, [hootsInit, hootsDidSet, setHootsDidSet])
+    }, [hootsInit, hootsDidSet, setHootsDidSet, props.username])
+
+    const handleDidReHoot = (newHoot) => {
+      const updatedHootsInit = [...hootsInit]
+      updatedHootsInit.unshift(newHoot)
+      setHootsInit(updatedHootsInit)
+
+      const updatedFinalHoot = [...hoots]
+      updatedFinalHoot.unshift(newHoot)
+      setHoots(updatedFinalHoot)
+    }
+
     return hoots.map((item, index) => {
-      return <Hoot hoot={item} className='my-5 py-5 border bg-white text-dark' key={`${index}-item.id`}/>
+      return <Hoot 
+      hoot={item}
+      didReHoot={handleDidReHoot} 
+      className='my-5 py-5 border bg-white text-dark' 
+      key={`${index}-item.id`}/>
     })
 }
 
@@ -94,13 +110,13 @@ export function ParentHoot(props) {
   return hoot.parent ? <div className='row'>
     <div className='col-11 mx-auto p-3 border rounded'>
       <p className='mb-0 text-muted small'>ReHoot</p>
-      <Hoot className={' '} hoot={hoot.parent}/>
+      <Hoot hideAction className={' '} hoot={hoot.parent}/>
     </div>
   </div> : null
 }
   
 export function Hoot(props) {
-    const {hoot, action} = props
+    const {hoot, didReHoot, hideAction} = props
     const [actionHoot, setActionHoot] = useState(props.hoot ? props.hoot : null)
     const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
 
@@ -108,7 +124,9 @@ export function Hoot(props) {
       if (status === 200) {
         setActionHoot(newActionHoot)
       } else if (status === 201){
-        // Let the hootList know
+        if(didReHoot){
+          didReHoot(newActionHoot)
+        }
       }
     }
 
@@ -118,7 +136,7 @@ export function Hoot(props) {
           <ParentHoot hoot={hoot} />
         </div>
         
-        {actionHoot && <div className='btn btn-group'>
+        {(actionHoot && hideAction !== true) && <div className='btn btn-group'>
           <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"like", display:"Likes"}}/>
           <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"unlike", display:"Unlike"}}/>
           <ActionBtn hoot={actionHoot} didAction={PerformAction} action={{type:"rehoot", display:"ReHoot"}}/>
