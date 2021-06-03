@@ -1,8 +1,8 @@
 import {ActionBtn} from './buttons'
 import {HootsList} from './list'
-import {ParentHoot, Hoot} from './hoot'
+import {ParentHoot, Hoot} from './Hoot'
 import {HootCreate} from './HootCreate'
-import {HootsComponent} from './components'
+import {HootsComponent, HootDetailComponent} from './components'
 
 export {
     ActionBtn, 
@@ -10,5 +10,6 @@ export {
     ParentHoot,
     HootsList,
     HootsComponent,
+    HootDetailComponent,
     HootCreate
 }

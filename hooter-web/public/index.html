@@ -30,7 +30,8 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="hooter" data-username="rick" data-can-hoot="false"></div>
+    <div id='hoot-container'></div>
+    <div class='d-none' id="hooter" data-username="rick" data-can-hoot="false"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -41,5 +42,18 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      var path = window.location.pathname
+      var idRegex = /(?<hootid>\d+)/
+      var match = path.match(idRegex)
+      var hootId = match.groups.hootid
+      if (hootId) {
+        var hooterElement = document.getElementById("hooter")
+        hooterElement.className = 'd-none'
+        var hootEl =  "<div class='hooter-detail' data-hoot-id=" + hootId + " data-class-name='col-6 mx-auto'></div>"
+        var mainContainer = document.getElementById("hoot-container")
+        mainContainer.innerHTML = hootEl
+      }
+    </script>
   </body>
 </html>

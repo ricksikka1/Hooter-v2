@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 
 import {apiHootList} from './lookup'
-import {Hoot} from './hoot'
+import {Hoot} from './Hoot'
 
 export function HootsList(props) {
     const [hootsInit, setHootsInit] = useState([])
