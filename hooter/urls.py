@@ -25,9 +25,16 @@ from hoots.views import (
     hoots_list_view, hoots_detail_view, hoots_profile_view 
 )
 
+from accounts.views import (
+    login_view, logout_view, register_view
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', hoots_list_view),
+    path('login/', login_view),
+    path('logout/', logout_view),
+    path('register/', register_view),
     path('<int:hoot_Id>', hoots_detail_view),
     path('profile/<str:username>', hoots_profile_view),
     path('api/hoots/', include('hoots.api.urls'))

@@ -56,6 +56,7 @@ REST API, User Auth, Unit Testing, Serialization, React hooks
 
 27) Add custom authentication in settings under Rest_framework (ONLY FOR DEV PURPOSES)
 
+28) new django app "accounts" to handle user registration 
 ------------------------------------------------ REACT TIME -------------------------------------------------------------------
 
 1) React hooks are special functions that let us "hook into" React features
