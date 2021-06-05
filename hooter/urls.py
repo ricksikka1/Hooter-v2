@@ -22,13 +22,13 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 from hoots.views import (
-    local_hoots_list_view, local_hoots_detail_view, local_hoots_profile_view 
+    hoots_list_view, hoots_detail_view, hoots_profile_view 
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', local_hoots_list_view),
-    path('<int:hoot_Id>', local_hoots_detail_view),
-    path('profile/<str:username>', local_hoots_profile_view),
-    path('api/hoots/', include('hoots.urls'))
+    path('', hoots_list_view),
+    path('<int:hoot_Id>', hoots_detail_view),
+    path('profile/<str:username>', hoots_profile_view),
+    path('api/hoots/', include('hoots.api.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

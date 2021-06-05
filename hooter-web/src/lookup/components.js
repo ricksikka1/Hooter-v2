@@ -12,13 +12,18 @@ export function backendlookup(method, endpoint, callBack, data) {
     xhr.responseType = "json"
     xhr.open(method, url)
     xhr.setRequestHeader("Content-Type", "application/json")
-    // if (csrftoken) {
-    //     console.log("this shouldnt work")
-    //     xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
-    //     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
-    //     xhr.setRequestHeader("X-CSRFToken", csrftoken)
-    // }
+    if (csrftoken) {
+       // xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+    }
     xhr.onload = function() {
+        if (xhr.status === 403 && xhr.response) {
+            const detail = xhr.response.detail
+            if (detail === "Authentication credentials were not provided."){
+                window.location.href = "/login?showLoginRequired=true"
+            }
+        }
         callBack(xhr.response, xhr.status)
     }
     xhr.onerror = function(e) {
