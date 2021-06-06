@@ -22,7 +22,7 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 from hoots.views import (
-    hoots_list_view, hoots_detail_view, hoots_profile_view 
+    hoots_list_view, hoots_detail_view 
 )
 
 from accounts.views import (
@@ -36,6 +36,6 @@ urlpatterns = [
     path('logout/', logout_view),
     path('register/', register_view),
     path('<int:hoot_Id>', hoots_detail_view),
-    path('profile/<str:username>', hoots_profile_view),
+    path('profile/', include('profiles.urls')),
     path('api/hoots/', include('hoots.api.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

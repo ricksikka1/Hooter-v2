@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # internal
     'hoots',
     'accounts',
+    'profiles',
 ]
 
 MIDDLEWARE = [

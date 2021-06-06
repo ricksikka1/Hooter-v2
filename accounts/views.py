@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 # Create your views here.
 def login_view(request, *args, **kwargs):
     form = AuthenticationForm(request, data=request.POST or None)
-    if form.is_valid:
+    if form.is_valid(): 
         user_ = form.get_user()
         login(request, user_)
         return redirect("/")
@@ -24,7 +24,8 @@ def logout_view(request, *args, **kwargs):
     
     context = {
         "form": None,
-        "btn_label": "Logout?",
+        "description": "Are you sure you want to Logout?",
+        "btn_label": "Click to Confirm",
         "title": "Logout"
     }
 
@@ -32,8 +33,11 @@ def logout_view(request, *args, **kwargs):
 
 def register_view(request, *args, **kwargs):
     form = UserCreationForm(data=request.POST or None)
-    if form.is_valid:
-        print(form.cleaned_data)
+    if form.is_valid():
+        user = form.save(commit=True)
+        user.set_password(form.cleaned_data.get("password1"))
+        login(request, user)
+        return redirect("/")
 
     context = {
         "form": form,

@@ -20,6 +20,3 @@ def hoots_list_view(request, *args, **kwargs):
 def hoots_detail_view(request, hoot_Id, *args, **kwargs):
     print("here i am")
     return render(request, "hoots/detail.html", context={"hoot_Id": hoot_Id})
-
-def hoots_profile_view(request, username, *args, **kwargs):
-    return render(request, "hoots/profile.html", context={"profile_username": username}, status=200)
