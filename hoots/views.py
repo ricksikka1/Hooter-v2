@@ -18,5 +18,4 @@ def hoots_list_view(request, *args, **kwargs):
     return render(request, "hoots/list.html")
 
 def hoots_detail_view(request, hoot_Id, *args, **kwargs):
-    print("here i am")
     return render(request, "hoots/detail.html", context={"hoot_Id": hoot_Id})

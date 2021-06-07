@@ -1,4 +1,4 @@
-REST API, User Auth, Unit Testing, Serialization, React hooks
+REST API, User Auth, Unit Testing, Serialization, React hooks, Django Signals
 
 1) Creating Django model. This is the abstracted level from the sql db. Django takes care a lot of this for us
 
@@ -42,7 +42,7 @@ REST API, User Auth, Unit Testing, Serialization, React hooks
 
 21) Likes are many to many field (filled with Users) .... thank you ECE356
 
-22) React will handle our liked/unliked state stuff
+22) Django has signals which allow other parts of the framework to be notified for actions --> When an account is made in the DB, make a profile for it!!
 
 22) Two types of serializers, create and readonly!
 
@@ -56,7 +56,8 @@ REST API, User Auth, Unit Testing, Serialization, React hooks
 
 27) Add custom authentication in settings under Rest_framework (ONLY FOR DEV PURPOSES)
 
-28) new django app "accounts" to handle user registration 
+28) new django app "accounts" to handle user registration, "profiles" to handle profile business
+
 ------------------------------------------------ REACT TIME -------------------------------------------------------------------
 
 1) React hooks are special functions that let us "hook into" React features

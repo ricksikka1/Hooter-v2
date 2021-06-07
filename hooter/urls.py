@@ -17,7 +17,7 @@ from re import template
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 from django.views.generic import TemplateView
 
@@ -36,6 +36,6 @@ urlpatterns = [
     path('logout/', logout_view),
     path('register/', register_view),
     path('<int:hoot_Id>', hoots_detail_view),
-    path('profile/', include('profiles.urls')),
+    re_path(r'profiles?/', include('profiles.urls')),
     path('api/hoots/', include('hoots.api.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
