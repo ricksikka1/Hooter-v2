@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.conf import settings
 
+from profiles.serializers import PublicProfileSerializer
 from .models import Hoot
 
 HOOT_ACTION_OPTIONS = ["like", "unlike", "rehoot"]
@@ -18,9 +19,10 @@ class HootActionSerializer(serializers.Serializer):
 
 class HootCreateSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField(read_only=True)
+    user = PublicProfileSerializer(source='user.profile', read_only=True)
     class Meta:
         model = Hoot
-        fields = ['id', 'content', 'likes']
+        fields = ['user', 'id', 'content', 'likes', 'timestamp']
 
     def get_likes(self, obj):
         return obj.likes.count()
@@ -30,13 +32,16 @@ class HootCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("This hoot is too long")
         return value
 
+
 class HootSerializer(serializers.ModelSerializer):
+    user = PublicProfileSerializer(source='user.profile', read_only=True)#serializers.SerializerMethodField(read_only=True)
     likes = serializers.SerializerMethodField(read_only=True)
     parent = HootCreateSerializer(read_only=True)
 
     class Meta:
         model = Hoot
-        fields = ['id', 'content', 'likes', 'is_rehoot', 'parent']
+        fields = ['user', 'id', 'content', 'likes', 'is_rehoot', 'parent', 'timestamp']
 
     def get_likes(self, obj):
         return obj.likes.count()
+
