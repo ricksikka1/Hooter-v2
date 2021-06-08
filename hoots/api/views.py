@@ -36,6 +36,19 @@ def hoot_list_view(request, *args, **kwargs):
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def hoot_feed_view(request, *args, **kwargs): # Following feed
+    user = request.user
+    profiles = user.following.all()
+    followed_users_id = []
+    if profiles.exists():
+        followed_users_id = [x.user.id for x in profiles]
+    followed_users_id.append(user.id)
+    qs = Hoot.objects.filter(user__id__in=followed_users_id).order_by("-timestamp")
+    serializer = HootSerializer(qs, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def hoot_detail_view(request, hoot_id, *args, **kwargs):
     qs = Hoot.objects.filter(id=hoot_id)
     if not qs.exists():
