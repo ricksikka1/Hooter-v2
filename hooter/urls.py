@@ -37,5 +37,6 @@ urlpatterns = [
     path('register/', register_view),
     path('<int:hoot_Id>', hoots_detail_view),
     re_path(r'profiles?/', include('profiles.urls')),
-    path('api/hoots/', include('hoots.api.urls'))
+    path('api/hoots/', include('hoots.api.urls')),
+    re_path(r'api/profiles?/', include('profiles.api.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
