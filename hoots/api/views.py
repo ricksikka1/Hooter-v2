@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, JsonResponse
 from django.utils.http import is_safe_url
 from rest_framework import serializers
+from rest_framework import pagination
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
@@ -32,15 +34,14 @@ def hoot_list_view(request, *args, **kwargs):
     username = request.GET.get('username') # ?username=rick
     if username:
         qs = qs.filter(user__username__iexact=username)
-    serializer = HootSerializer(qs, many=True)
-    return Response(serializer.data)
+    return get_paginated_qs(qs, request)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def hoot_feed_view(request, *args, **kwargs): # Following feed
-    qs = Hoot.objects.feed(request.user) # MUCH CLEANER LOOKUP!! (MODEL MANAGER + QS)
-    serializer = HootSerializer(qs, many=True)
-    return Response(serializer.data)
+    user = request.user
+    qs = Hoot.objects.feed(user) # MUCH CLEANER LOOKUP!! (MODEL MANAGER + QS)
+    return get_paginated_qs(qs, request)
 
 @api_view(['GET'])
 def hoot_detail_view(request, hoot_id, *args, **kwargs):
@@ -99,7 +100,12 @@ def hoot_action_view(request, *args, **kwargs):
 
     return Response({}, status=200)
 
-
+def get_paginated_qs(qs, request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 20
+    paginated_qs = paginator.paginate_queryset(qs, request)
+    serializer = HootSerializer(paginated_qs, many=True)
+    return paginator.get_paginated_response(serializer.data)
 
 
 

@@ -63,6 +63,8 @@ REST API, User Auth, Unit Testing, Serialization, React hooks, Django Signals
 30) Following/Follower logic implemented through Many-to-many relationships (ece356)
 
 31) More efficient backend lookups with model managers (rather than looping over qs)
+
+32) Use pagination to convert giant hoot list into chunks of pages
 ------------------------------------------------ REACT TIME -------------------------------------------------------------------
 
 1) React hooks are special functions that let us "hook into" React features

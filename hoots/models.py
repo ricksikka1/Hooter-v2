@@ -9,23 +9,23 @@ class HootLike(models.Model):
     hoot = models.ForeignKey("Hoot", on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-class HootManager(models.Manager): # .objects
-    def getQuerySet(self, *args, **kwargs):
-        return HootQuerySet(self.model, using=self._db)
-    
+class HootQuerySet(models.QuerySet):
     def feed(self, user):
-        return self.getQuerySet().feed(user)
-
-class HootQuerySet(models.QuerySet): # .filter
-    def feed(self, user):
-        profiles_exist = user.following.existS()
+        profiles_exist = user.following.exists()
         followed_users_id = []
         if profiles_exist:
-            followed_users_id = user.following.values_list("user__id", flat=True)
+            followed_users_id = user.following.values_list("user__id", flat=True) # [x.user.id for x in profiles]
         return self.filter(
             Q(user__id__in=followed_users_id) |
             Q(user=user)
         ).distinct().order_by("-timestamp")
+
+class HootManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        return HootQuerySet(self.model, using=self._db)
+
+    def feed(self, user):
+        return self.get_queryset().feed(user)
 
 class Hoot(models.Model):
     # Maps to SQL data
