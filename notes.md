@@ -58,6 +58,9 @@ REST API, User Auth, Unit Testing, Serialization, React hooks, Django Signals
 
 28) new django app "accounts" to handle user registration, "profiles" to handle profile business
 
+29) Can update multiple models with one form, when updating the Profile form we can update our User Model (first/last name, email)
+
+30) Following/Follower logic implemented through Many-to-many relationships (ece356)
 ------------------------------------------------ REACT TIME -------------------------------------------------------------------
 
 1) React hooks are special functions that let us "hook into" React features
