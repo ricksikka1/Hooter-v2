@@ -6,6 +6,7 @@ import {Hoot} from './Hoot'
 export function HootsList(props) {
     const [hootsInit, setHootsInit] = useState([])
     const [hoots, setHoots] = useState([])
+    const [nextUrl, setNextUrl] = useState(null)
     const [hootsDidSet, setHootsDidSet] = useState(false)
 
     useEffect(() => {
@@ -20,7 +21,8 @@ export function HootsList(props) {
       if (hootsDidSet === false) {
         const callBack = (response, status) => {
           if(status === 200) {
-            setHootsInit(response)
+            setNextUrl(response.next)
+            setHootsInit(response.results)
             setHootsDidSet(true)
           }
         }
@@ -38,11 +40,28 @@ export function HootsList(props) {
       setHoots(updatedFinalHoot)
     }
 
-    return hoots.map((item, index) => {
+    const handleLoadNext = (event) => {
+      event.preventDefault()
+      if (nextUrl !== null){
+        const handleloadNextResponse = (response, status) => {
+          if(status === 200) {
+            setNextUrl(response.next)
+            const newHoots = [...hoots].concat(response.results)
+            setHootsInit(newHoots)
+            setHoots(newHoots)
+          }
+        }
+        apiHootList(props.username, handleloadNextResponse, nextUrl)
+      }
+    }
+
+    return <React.Fragment>{hoots.map((item, index) => {
       return <Hoot 
       hoot={item}
       didReHoot={handleDidReHoot} 
       className='my-5 py-5 border bg-white text-dark' 
       key={`${index}-item.id`}/>
-    })
+    })}
+    {nextUrl !== null && <button onClick={handleLoadNext} className='btn btn-outline-primary'>Load Next</button>}
+    </React.Fragment>
 }
