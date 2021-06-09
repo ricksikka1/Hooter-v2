@@ -2,7 +2,7 @@ import {ActionBtn} from './buttons'
 import {HootsList} from './list'
 import {ParentHoot, Hoot} from './Hoot'
 import {HootCreate} from './HootCreate'
-import {HootsComponent, HootDetailComponent} from './components'
+import {HootsComponent, HootDetailComponent, FeedComponent} from './components'
 
 export {
     ActionBtn, 
@@ -11,5 +11,6 @@ export {
     HootsList,
     HootsComponent,
     HootDetailComponent,
+    FeedComponent,
     HootCreate
 }

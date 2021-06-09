@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    <div id='hooter-feed'></div>
+{% else %}
+    <div id='hooter'>
+{% endif %}
+{% endblock content %}

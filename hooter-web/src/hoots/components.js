@@ -4,6 +4,22 @@ import {HootCreate} from './HootCreate'
 import {HootsList} from './list'
 import {apiHootDetail} from './lookup'
 import {Hoot} from './Hoot'
+import {HootsFeed} from './feed'
+
+export function FeedComponent(props) {
+  const [newHoots, setNewHoots] = useState([])
+  const canHoot = props.canHoot === "false" ? false : true
+  const handleNewHoot = (newHoot) => {
+    let tempNewHoots = [...newHoots]
+    tempNewHoots.unshift(newHoot)
+    setNewHoots(tempNewHoots)
+  }
+
+  return <div className={props.className}>
+      {canHoot === true && <HootCreate didHoot={handleNewHoot} className='col-12 mb-3'/>}
+    <HootsFeed newHoots={newHoots} {...props}/>
+  </div>
+}
 
 export function HootsComponent(props) {
   const [newHoots, setNewHoots] = useState([])

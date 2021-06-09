@@ -22,7 +22,7 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 
 from hoots.views import (
-    hoots_list_view, hoots_detail_view 
+    hoots_list_view, hoots_detail_view, home_view
 )
 
 from accounts.views import (
@@ -30,8 +30,9 @@ from accounts.views import (
 )
 
 urlpatterns = [
+    path('', home_view),
     path('admin/', admin.site.urls),
-    path('', hoots_list_view),
+    path('all/', hoots_list_view),
     path('login/', login_view),
     path('logout/', logout_view),
     path('register/', register_view),

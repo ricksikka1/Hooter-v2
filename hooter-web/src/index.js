@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {HootsComponent, HootDetailComponent} from './hoots'
+import {HootsComponent, HootDetailComponent, FeedComponent} from './hoots'
 import reportWebVitals from './reportWebVitals';
 
 const appEl = document.getElementById('root')
@@ -19,11 +19,15 @@ const e = React.createElement
 
 const hootsEl = document.getElementById('hooter')
 if (hootsEl) {
-  ReactDOM.render(e(HootsComponent, hootsEl.dataset),hootsEl);
+  ReactDOM.render(e(HootsComponent, hootsEl.dataset), hootsEl);
+}
+
+const feedEl = document.getElementById('hooter-feed')
+if (feedEl) {
+  ReactDOM.render(e(FeedComponent, feedEl.dataset), feedEl);
 }
 
 const hootDetailElement = document.querySelectorAll(".hooter-detail")
-
 hootDetailElement.forEach(container => {
   ReactDOM.render(e(HootDetailComponent, container.dataset),
   container);

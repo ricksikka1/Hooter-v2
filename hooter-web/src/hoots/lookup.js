@@ -13,6 +13,14 @@ export function apiHootDetail(hootId, callBack) {
     backendlookup("GET", `/hoots/${hootId}/`, callBack)
 }
 
+export function apiHootFeed(callBack, nextUrl) {
+    let endpoint = "/hoots/feed/"
+    if (nextUrl !== null && nextUrl !== undefined){
+        endpoint = nextUrl.replace("http://localhost:8000/api", "")
+    }
+    backendlookup("GET", endpoint, callBack)
+}
+
 export function apiHootList(username, callBack, nextUrl) {
     let endpoint = "/hoots/"
     if (username) {
