@@ -1,20 +1,26 @@
-import random
-import re
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404, JsonResponse
 from django.utils.http import is_safe_url
-from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import SessionAuthentication
 from django.contrib.auth import get_user_model
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 from ..models import Profile
+from ..serializers import PublicProfileSerializer
 
 User = get_user_model()
+
+@api_view(['GET'])
+def profile_detail_api_view(request, username, *args, **kwargs):
+    # Get the profile for the username
+    qs = Profile.objects.filter(user__username=username)
+    if not qs.exists():
+        return Response({"detail": "User not found"}, status=404)
+    profile_obj = qs.first()
+    data = PublicProfileSerializer(instance=profile_obj, context={"request": request})
+    return Response(data.data, status=200)
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
