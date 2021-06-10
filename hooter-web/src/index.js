@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import {ProfileBadgeComponent} from './profiles';
 import {HootsComponent, HootDetailComponent, FeedComponent} from './hoots'
 import reportWebVitals from './reportWebVitals';
 
@@ -30,6 +31,12 @@ if (feedEl) {
 const hootDetailElement = document.querySelectorAll(".hooter-detail")
 hootDetailElement.forEach(container => {
   ReactDOM.render(e(HootDetailComponent, container.dataset),
+  container);
+})
+
+const userProfileElement = document.querySelectorAll(".hooter-profile-detail")
+userProfileElement.forEach(container => {
+  ReactDOM.render(e(ProfileBadgeComponent, container.dataset),
   container);
 })
 // If you want to start measuring performance in your app, pass a function

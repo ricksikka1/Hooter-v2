@@ -20,6 +20,7 @@ def profile_detail_api_view(request, username, *args, **kwargs):
         return Response({"detail": "User not found"}, status=404)
     profile_obj = qs.first()
     data = PublicProfileSerializer(instance=profile_obj, context={"request": request})
+    print(request.user.id)
     return Response(data.data, status=200)
 
 @api_view(['GET', 'POST'])
@@ -34,7 +35,6 @@ def user_follow_view(request, username, *args, **kwargs):
 
     data = request.data or {}
     action = data.get("action")
-
     if action == "follow":
         profile.followers.add(me)
     elif action == "unfollow":
@@ -42,8 +42,8 @@ def user_follow_view(request, username, *args, **kwargs):
     else:
         pass
 
-    current_follower_qs = profile.followers.all()
-    return Response({"followers": current_follower_qs.count()}, status=200)
+    data = PublicProfileSerializer(instance=profile, context={"request": request})
+    return Response(data.data, status=200)
 
 # @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
