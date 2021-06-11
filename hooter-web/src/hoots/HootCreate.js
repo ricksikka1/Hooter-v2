@@ -11,7 +11,6 @@ export function HootCreate(props) {
         didHoot(response)
       } else {
         console.log(response)
-        alert("An error occured")
       }
     }
     
