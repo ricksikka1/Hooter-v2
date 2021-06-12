@@ -2,7 +2,7 @@
 
 A basic twitter clone made with the Django Rest Framework and React.js
 
-My API documentation [here](./documentation/API.md)
+My API documentation [here](./documentation/API.md)\
 Demo Features [here](./documentation/demo.md)
 
 <img src="/documentation/demo.PNG" width="100%" height="80%"/>
