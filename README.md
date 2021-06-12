@@ -4,7 +4,7 @@ A basic twitter clone made with the Django Rest Framework and React.js
 
 API documentation [here](./documentation/API.md)
 
-<img src="/demo/demo.PNG" width="80%" height="80%"/>
+<img src="/demo/demo.PNG" width="100%" height="80%"/>
 
 ## Features
 Here are the following features:
