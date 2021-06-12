@@ -2,7 +2,8 @@
 
 A basic twitter clone made with the Django Rest Framework and React.js
 
-API documentation [here](./documentation/API.md)
+My API documentation [here](./documentation/API.md)
+Demo Features [here](./documentation/demo.md)
 
 <img src="/documentation/demo.PNG" width="100%" height="80%"/>
 
@@ -30,3 +31,5 @@ Here are the following features:
   * User + Custom Auth
   * Custom Serialization
   * Pagination
+
+Inspired by Justin from CFE, Thanks Justin!
